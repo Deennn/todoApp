@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -22,9 +24,9 @@ public class Task {
     private String description;
     private TaskStatus status;
     @CreationTimestamp
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     @UpdateTimestamp
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt;
     private LocalDate completedAt;
 
 
