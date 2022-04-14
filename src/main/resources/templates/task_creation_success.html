@@ -1,10 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+
+<!--<head th:replace="/fragments/head"></head>-->
+
 <body>
-<h1>Success</h1>
+
+<!--<nav th:replace="/fragments/nav :: nav-admin"></nav>-->
+
+<div class="container">
+
+    <h1 class="display-2">Categories</h1>
+    <a href="/admin/tasks/add" class="btn btn-primary mb-5">Add new</a>
+
+<!--    <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>-->
+
+<!--    <div th:if="${!tasks.empty}">-->
+        <table class="table sorting" id="categories">
+            <tr class="home">
+                <th>Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+<!--            <tr th:each="Task: ${tasks}" th:id="'id_' + ${task.id}">-->
+<!--                <td th:text="${task.title}"></td>-->
+<!--                <td th:text="${task.description}"></td>-->
+<!--                <td><a th:href="@{'/admin/categories/edit/' + ${task.id}}">Update</a></td>-->
+<!--                <td><a th:href="@{'/admin/categories/delete/' + ${task.id}}" class="confirmDeletion">Delete</a></td>-->
+<!--            </tr>-->
+        </table>
+    </div>
+
+<!--    <div th:unless="${!tasks.empty}">-->
+<!--        <h4 class="display-4">There are no categories at the moment</h4>-->
+<!--    </div>-->
+
+</div>
+
+<!--<div th:replace="/fragments/footer"></div>-->
+
+<script>
+
+    let token = $("meta[name='_csrf']").attr("content");
+    let header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function (e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+
+    $("table#categories tbody").sortable({
+        items: "tr:not(.home)",
+        placeholder: "ui-state-highlight",
+        update: function() {
+            let ids = $("table#categories tbody").sortable("serialize");
+            let url = "/admin/categories/reorder";
+
+            $.post(url, ids, function (data) {
+                console.log(data);
+            });
+        }
+    });
+</script>
+
 </body>
+
 </html>
